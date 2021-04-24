@@ -1,19 +1,25 @@
 from tkinter import Tk, Button, Label, DoubleVar, Entry
 
 window = Tk()
-window.title("Conversion :  PIED - METRE")
+window.title("Conversion :  PIED -> METRE")
 window.configure(background="light gray")
-window.geometry("320x220")
+window.geometry("320x250")
 window.resizable(width=False, height=False)
 
 
 def convert():
-    value = float(feet_entry.get())
-    meter = value * 0.3048
-    meter_value.set("%.4f" % meter)
+    try:
+        meter_value.set("")
+        value = float(feet_entry.get())
+        meter = value * 0.3048
+        meter_value.set("%.4f" % meter)
+        error_label.grid_remove()
+    except ValueError:
+        error_label.grid(column=0, row=4, columnspan=2)
 
 
 def clear():
+    error_label.grid_remove()
     feet_value.set("")
     meter_value.set("")
 
@@ -39,6 +45,10 @@ convert_btn.grid(column=0, row=3, padx=30, pady=30)
 
 reset_btn = Button(window, text="Effacer", bg="gray", fg="black", width=10, command=clear)
 reset_btn.grid(column=1, row=3)
+
+error_label = Label(window, text="Valeur incorrecte pour 'pied'\nVeuillez entrez un nombre reel",  bg="light gray", fg="red")
+
+
 
 
 window.mainloop()
